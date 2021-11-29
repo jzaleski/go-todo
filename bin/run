@@ -2,6 +2,11 @@
 
 set -e;
 
+dot_env_dot_local_file="$(dirname $0)/../.env.local";
+if [ -e "$dot_env_dot_local_file" ]; then
+  source ${dot_env_dot_local_file};
+fi
+
 air_cmd=$(which air || echo -n);
 if [ -z ${air_cmd} ]; then
   echo "Could not locate \"air\" binary";

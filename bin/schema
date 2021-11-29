@@ -2,6 +2,11 @@
 
 set -e;
 
+dot_env_dot_local_file="$(dirname $0)/../.env.local";
+if [ -e "$dot_env_dot_local_file" ]; then
+  source ${dot_env_dot_local_file};
+fi
+
 cat_cmd=$(which cat || echo -n);
 if [ -z ${cat_cmd} ]; then
   echo "Could not locate \"cat\" binary";

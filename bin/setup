@@ -2,6 +2,11 @@
 
 set -e;
 
+dot_env_dot_local_file="$(dirname $0)/../.env.local";
+if [ -e "$dot_env_dot_local_file" ]; then
+  source ${dot_env_dot_local_file};
+fi
+
 psql_cmd=$(which psql || echo -n);
 if [ -z ${psql_cmd} ]; then
   echo "Could not locate \"psql\" binary";
