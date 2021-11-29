@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+set -e;
+
+cat_cmd=$(which cat || echo -n);
+if [ -z ${cat_cmd} ]; then
+  echo "Could not locate \"cat\" binary";
+  exit 1;
+fi
+
+psql_cmd=$(which psql || echo -n);
+if [ -z ${psql_cmd} ]; then
+  echo "Could not locate \"psql\" binary";
+  exit 1;
+fi
+
+database_url=${DATABASE_URL};
+if [ -z "${database_url}" ]; then
+  database_url="${DATABASE_BASE_URL:-"postgres://postgres:postgres@localhost:5432"}/${DATABASE_NAME:-"todo"}?sslmode=disable";
+fi
+
+${cat_cmd} $(dirname $0)/../db/schema.sql | ${psql_cmd} "${database_url}";

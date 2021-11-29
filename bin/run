@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+set -e;
+
+air_cmd=$(which air || echo -n);
+if [ -z ${air_cmd} ]; then
+  echo "Could not locate \"air\" binary";
+  exit 1;
+fi
+
+if [ -z "${DATABASE_URL}" ]; then
+  export DATABASE_URL="${DATABASE_BASE_URL:-"postgres://postgres:postgres@localhost:5432"}/${DATABASE_NAME:-"todo"}?sslmode=disable";
+fi
+
+${air_cmd};

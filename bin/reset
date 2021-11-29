@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+set -e;
+
+psql_cmd=$(which psql || echo -n);
+if [ -z ${psql_cmd} ]; then
+  echo "Could not locate \"psql\" binary";
+  exit 1;
+fi
+
+echo "DROP DATABASE ${DATABASE_NAME:-"todo"}" | \
+  ${psql_cmd} "${DATABASE_BASE_URL:-"postgres://postgres:postgres@localhost:5432"}/postgres?sslmode=disable" || \
+  true;
+
+$(dirname $0)/setup;
